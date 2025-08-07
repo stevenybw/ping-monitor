@@ -2,13 +2,15 @@
 
 `ping-monitor` 是一个轻量级的网络稳定性监控工具，用于持续 `ping` 多个目标主机，并将响应状态与延迟信息记录到日志文件中。它作为一个 `systemd` 服务后台运行，适用于诊断网络中断、丢包或高延迟问题，特别适合家庭或轻量服务器场景。
 
+> 🖥️ **注意：本工具假定运行在 WSL 2 环境中的 Ubuntu 系统内**，并通过调用宿主机的 PowerShell 命令来获取无线网络的 SSID。因此该工具在原生 Linux 上不适用，或需要额外适配。
+
 ---
 
 ## ✨ 功能特点
 
-- 持续监控多个目标（如 8.8.8.8、1.1.1.1、google.com）
+- 持续监控多个目标（如 8.8.8.8、1.1.1.1、google.com、baidu.com）
 - 记录每次 `ping` 的成功/失败状态和延迟值（ms）
-- 日志带时间戳，便于分析
+- 日志带时间戳、网络接口名、IP 地址和（如有）Wi-Fi SSID
 - `systemd` 后台服务自动启动、守护
 - 支持 `.deb` 安装包一键部署
 
@@ -77,7 +79,7 @@ tail -f /var/log/ping-monitor/ping.log
 脚本中默认的目标主机为：
 
 ```bash
-HOSTS=("8.8.8.8" "1.1.1.1" "google.com")
+HOSTS=("8.8.8.8" "1.1.1.1" "google.com" "baidu.com")
 ```
 
 你可以根据需要修改安装路径中的脚本文件：
@@ -117,6 +119,18 @@ sudo apt remove ping-monitor
 
 ---
 
+## ⚠️ WSL 兼容说明
+
+- 本工具依赖以下 PowerShell 命令从宿主机获取网络信息：
+
+```powershell
+netsh wlan show interfaces
+```
+
+- 若你在非 WSL 环境或非 Windows 主机使用本工具，请根据系统环境自行调整脚本中相关命令。
+
+---
+
 ## 📜 开源许可证
 
 本项目采用 [MIT License](LICENSE)。
@@ -132,4 +146,3 @@ sudo apt remove ping-monitor
 - 支持 ICMP 之外的探测协议（如 HTTP/S）
 
 请在 GitHub 提出 🙌
-
