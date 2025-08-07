@@ -1,0 +1,10 @@
+Package: ping-monitor
+Version: 1.0
+Section: net
+Priority: optional
+Architecture: all
+Depends: bash, iputils-ping
+Maintainer: stevenybw <stevenybw@hotmail.com>
+Description: Lightweight service to monitor network stability using ping.
+ Records ping success and latency to a log file in /var/log/ping-monitor.
+
