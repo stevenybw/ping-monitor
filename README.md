@@ -112,12 +112,7 @@ ping-monitor/
 ## 🧼 卸载方式
 
 ```bash
-sudo systemctl stop ping-monitor.service
-sudo systemctl disable ping-monitor.service
-sudo rm /etc/systemd/system/ping-monitor.service
-sudo rm /usr/local/bin/ping-monitor.sh
-sudo rm -rf /var/log/ping-monitor
-sudo systemctl daemon-reload
+sudo apt remove ping-monitor
 ```
 
 ---
