@@ -42,29 +42,13 @@ ping-monitor_1.0_all.deb
 sudo dpkg -i ping-monitor_1.0_all.deb
 ```
 
----
-
-## 🚀 使用说明
-
-### 启动服务
-
-```bash
-sudo systemctl start ping-monitor.service
-```
-
-### 设置为开机自启
-
-```bash
-sudo systemctl enable ping-monitor.service
-```
-
-### 查看服务状态
+4. 此时服务已经自动启动，通过以下方式查看：
 
 ```bash
 sudo systemctl status ping-monitor.service
 ```
 
-### 查看实时日志
+5. 通过以下方式可以实时查看日志
 
 ```bash
 tail -f /var/log/ping-monitor/ping.log
