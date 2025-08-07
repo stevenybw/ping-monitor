@@ -20,6 +20,7 @@ while true; do
     for HOST in "${HOSTS[@]}"; do
         TARGET_IP=$(getent ahosts "$HOST" | awk '{ print $1; exit }')
         IFACE=$(ip route get "$TARGET_IP" 2>/dev/null | grep -oP 'dev \K\S+')
+        IFACE_IP=$(ip -o -4 addr show dev "$IFACE" 2>/dev/null | awk '{print $4}' | cut -d/ -f1)
 
         # 如果是 eth0（WSL 默认接口），尝试取 SSID
         SSID=""
@@ -30,9 +31,9 @@ while true; do
         PING_RESULT=$(ping -c 1 -W 2 "$HOST" 2>/dev/null)
         if [ $? -eq 0 ]; then
             RTT=$(echo "$PING_RESULT" | grep 'time=' | sed -E 's/.*time=([0-9.]+) ms.*/\1/')
-            echo "$TIMESTAMP - $HOST ($TARGET_IP) - OK - ${RTT}ms - IFACE=$IFACE - SSID=${SSID:-N/A}" >> "$LOG_FILE"
+            echo "$TIMESTAMP - $HOST ($TARGET_IP) - OK - ${RTT}ms - IFACE=$IFACE - IFACE_IP=${IFACE_IP:-N/A} - SSID=${SSID:-N/A}" >> "$LOG_FILE"
         else
-            echo "$TIMESTAMP - $HOST ($TARGET_IP) - FAIL - IFACE=$IFACE - SSID=${SSID:-N/A}" >> "$LOG_FILE"
+            echo "$TIMESTAMP - $HOST ($TARGET_IP) - FAIL - IFACE=$IFACE - IFACE_IP=${IFACE_IP:-N/A} - SSID=${SSID:-N/A}" >> "$LOG_FILE"
         fi
     done
     sleep 10
